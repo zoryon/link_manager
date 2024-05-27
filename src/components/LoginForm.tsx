@@ -58,18 +58,22 @@ const LoginForm = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className='w-[90vw] sm:w-[60vw] lg:w-[40vw] xl:w-[30vw] 2xl:w-[25vw] grid gap-5'>
+            <form 
+                onSubmit={form.handleSubmit(handleSubmit)} 
+                className='w-[90vw] sm:w-[60vw] lg:w-[40vw] xl:w-[30vw] 2xl:w-[25vw] grid gap-5'
+            >
                 <FormField
                     control={form.control}
                     name='email'
                     render={({ field }) => {
                         return (
-                            <FormItem>
+                            <FormItem className='w-full flex flex-col justify-center items-center'>
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
                                     <Input
+                                        className='w-72 border-softblue rounded-2xl flex items-center'
                                         disabled={isPending}
-                                        placeholder='your@email.com'
+                                        placeholder='your@email'
                                         type='email'
                                         {...field}
                                     />
@@ -84,10 +88,11 @@ const LoginForm = () => {
                     name='password'
                     render={({ field }) => {
                         return (
-                            <FormItem>
+                            <FormItem className='w-full flex flex-col justify-center items-center mt-4'>
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
                                     <Input
+                                        className='w-72 border-softblue rounded-2xl flex items-center'
                                         disabled={isPending}
                                         placeholder='your password'
                                         type='password'
@@ -99,10 +104,15 @@ const LoginForm = () => {
                         )
                     }}
                 />
-                <Button 
-                    disabled={isPending}
-                    type='submit'
-                >{isPending ? 'Signing in...' : 'Login'}</Button>
+                <div className='w-full flex justify-center mt-8'>
+                    <Button 
+                        disabled={isPending}
+                        type='submit'
+                        className='bg-softblue w-32 rounded-2xl text-white'
+                    >
+                        {isPending ? 'Signing in...' : 'Login'}
+                    </Button>
+                </div>
             </form>
         </Form>
     )

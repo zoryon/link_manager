@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+        softblue: "var(--soft-blue)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
