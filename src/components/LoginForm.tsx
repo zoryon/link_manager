@@ -68,10 +68,10 @@ const LoginForm = () => {
                     render={({ field }) => {
                         return (
                             <FormItem className='w-full flex flex-col justify-center items-center'>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel className='text-[0.8rem]'>Email</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className='w-72 border-softblue rounded-2xl flex items-center'
+                                        className='w-72 border-softblue rounded-2xl flex items-center text-[0.8rem]'
                                         disabled={isPending}
                                         placeholder='your@email'
                                         type='email'
@@ -89,10 +89,10 @@ const LoginForm = () => {
                     render={({ field }) => {
                         return (
                             <FormItem className='w-full flex flex-col justify-center items-center mt-4'>
-                                <FormLabel>Password</FormLabel>
+                                <FormLabel className='text-[0.8rem]'>Password</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className='w-72 border-softblue rounded-2xl flex items-center'
+                                        className='w-72 border-softblue rounded-2xl flex items-center text-[0.8rem]'
                                         disabled={isPending}
                                         placeholder='your password'
                                         type='password'
@@ -108,7 +108,8 @@ const LoginForm = () => {
                     <Button 
                         disabled={isPending}
                         type='submit'
-                        className='bg-softblue w-32 rounded-2xl text-white'
+                        className='bg-softblue w-32 rounded-2xl text-foreground'
+                        variant={'ghost'}
                     >
                         {isPending ? 'Signing in...' : 'Login'}
                     </Button>
