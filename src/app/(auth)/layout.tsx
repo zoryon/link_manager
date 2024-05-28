@@ -13,7 +13,7 @@ export default function AuthLayout({
                 alt='logo'
                 width={150}
                 height={150}
-                className='absolute top-10 left-1/2 transform -translate-x-1/2'
+                className='absolute top-24 left-1/2 transform -translate-x-1/2'
             />
         </div>
     )
