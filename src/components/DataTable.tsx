@@ -1,7 +1,18 @@
 import { Tables } from '@/types/supabase'
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
-import Spinner from './Spinner'
+import { 
+    ColumnDef, 
+    flexRender, 
+    getCoreRowModel, 
+    useReactTable 
+} from '@tanstack/react-table'
+import { 
+    Table, 
+    TableBody, 
+    TableCell, 
+    TableHead, 
+    TableHeader, 
+    TableRow 
+} from './ui/table'
 
 export const columns: ColumnDef<Tables<'links'>>[] = [
     {
@@ -24,7 +35,7 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
-    data: TData[] | null
+    data: TData[]
 }
 
 const DataTable = <TData, TValue>({
@@ -32,25 +43,6 @@ const DataTable = <TData, TValue>({
     data,
 }: DataTableProps<TData, TValue>
 ) => {  
-    if (data === null) {
-        return (
-            <div className='rounded-md border'>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableCell 
-                                colSpan={columns.length} 
-                                className='w-full h-24 flex justify-center items-center'
-                            >
-                                <Spinner />
-                            </TableCell>
-                        </TableRow>
-                    </TableHeader>
-                </Table>
-            </div>
-        )
-    }
-
     const table = useReactTable({
         data,
         columns,
