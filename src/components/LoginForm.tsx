@@ -43,13 +43,13 @@ const LoginForm = () => {
 
             if (error) {
                 toast({
-                    title: 'Wrong credentials..',
-                    description: 'The credentials provided were not correct, please try again.' 
+                    title: 'Credenziali sbagliate..',
+                    description: 'Le credenziali sono sbagliate, perfavore riprova.'
                 })
             } else {
                 toast({
-                    title: 'Success..',
-                    description: 'Congratulations!! You are now logged in correctly.' 
+                    title: 'Successo..',
+                    description: 'Login effettuato correttamente.'
                 })
                 router.push('/')
             }
@@ -58,8 +58,8 @@ const LoginForm = () => {
 
     return (
         <Form {...form}>
-            <form 
-                onSubmit={form.handleSubmit(handleSubmit)} 
+            <form
+                onSubmit={form.handleSubmit(handleSubmit)}
                 className='w-[90vw] sm:w-[60vw] lg:w-[40vw] xl:w-[30vw] 2xl:w-[25vw] grid gap-5'
             >
                 <FormField
@@ -70,13 +70,22 @@ const LoginForm = () => {
                             <FormItem className='w-full flex flex-col justify-center items-center'>
                                 <FormLabel className='text-[0.8rem]'>Email</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        className='w-72 border-softblue rounded-2xl flex items-center text-[0.8rem]'
-                                        disabled={isPending}
-                                        placeholder='your@email'
-                                        type='email'
-                                        {...field}
-                                    />
+                                    <div className='relative w-72'>
+                                        <Input
+                                            className='border-softblue rounded-2xl flex items-center 
+                                            text-[0.8rem] pl-10'
+                                            disabled={isPending}
+                                            placeholder='example@gmail.com'
+                                            type='email'
+                                            {...field}
+                                        />
+                                        <div 
+                                            className='absolute left-1 top-1/2 transform -translate-y-1/2 flex 
+                                            items-center pl-3 pointer-events-none'
+                                        >
+                                            <i className='fa-light fa-envelope'></i>
+                                        </div>
+                                    </div>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -91,13 +100,22 @@ const LoginForm = () => {
                             <FormItem className='w-full flex flex-col justify-center items-center mt-4'>
                                 <FormLabel className='text-[0.8rem]'>Password</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        className='w-72 border-softblue rounded-2xl flex items-center text-[0.8rem]'
-                                        disabled={isPending}
-                                        placeholder='your password'
-                                        type='password'
-                                        {...field}
-                                    />
+                                    <div className='relative w-72'>
+                                        <Input
+                                            className='w-72 border-softblue rounded-2xl flex items-center 
+                                            text-[0.8rem] pl-10'
+                                            disabled={isPending}
+                                            placeholder='example'
+                                            type='password'
+                                            {...field}
+                                        />
+                                        <div 
+                                            className='absolute left-1 top-1/2 transform -translate-y-1/2 flex
+                                            items-center pl-3 pointer-events-none'
+                                        >
+                                            <i className='fa-light fa-lock'></i>
+                                        </div>
+                                    </div>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -105,7 +123,7 @@ const LoginForm = () => {
                     }}
                 />
                 <div className='w-full flex justify-center mt-8'>
-                    <Button 
+                    <Button
                         disabled={isPending}
                         type='submit'
                         className='bg-softblue w-32 rounded-2xl text-foreground'

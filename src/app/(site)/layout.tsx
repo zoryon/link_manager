@@ -1,3 +1,4 @@
+import Navbar from '@/components/Navbar'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 export default function SiteLayout({
@@ -6,8 +7,11 @@ export default function SiteLayout({
     children: React.ReactNode
 }) {
     return (
-        <ScrollArea>
-            {children}
-        </ScrollArea>
+        <div>
+            <Navbar />
+            <ScrollArea className='w-full'>
+                {children}
+            </ScrollArea>
+        </div>
     )
 }
