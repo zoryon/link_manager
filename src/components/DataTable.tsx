@@ -1,18 +1,28 @@
 import { Tables } from '@/types/supabase'
-import { 
-    ColumnDef, 
-    flexRender, 
-    getCoreRowModel, 
-    useReactTable 
+import {
+    ColumnDef,
+    flexRender,
+    getCoreRowModel,
+    useReactTable
 } from '@tanstack/react-table'
-import { 
-    Table, 
-    TableBody, 
-    TableCell, 
-    TableHead, 
-    TableHeader, 
-    TableRow 
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
 } from './ui/table'
+import { MoreHorizontal } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 export const columns: ColumnDef<Tables<'links'>>[] = [
     {
@@ -31,6 +41,39 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
         accessorKey: 'creator_email',
         header: 'Creatore',
     },
+    {
+        id: 'actions',
+        cell: ({ row }) => {
+            const link = row.original
+
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant='ghost' className='h-8 w-8 p-0'>
+                            <span className='sr-only'>Open menu</span>
+                            <MoreHorizontal className='h-4 w-4' />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align='end'>
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            onClick={() => navigator.clipboard.writeText(link.link)}
+                            className='flex gap-2 items-center'
+                        >
+                            <i className='fa-light fa-copy'></i>
+                            Copy Link
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem className='flex gap-2 items-center'>
+                            <i className='fa-light fa-trash'></i>
+                            Delete 
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )
+        },
+    },
 ]
 
 interface DataTableProps<TData, TValue> {
@@ -42,7 +85,7 @@ const DataTable = <TData, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>
-) => {  
+) => {
     const table = useReactTable({
         data,
         columns,
