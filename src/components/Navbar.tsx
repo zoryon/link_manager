@@ -160,7 +160,7 @@ const Navbar = () => {
                                 </Popover>
                             </div>
                             <div className='flex flex-col gap-4'>
-                                <Label htmlFor='meta'>
+                                <Label htmlFor='data'>
                                     Data
                                 </Label>
                                 <Popover>
@@ -181,7 +181,6 @@ const Navbar = () => {
                                             mode='single'
                                             selected={date}
                                             onSelect={setDate}
-                                            initialFocus
                                         />
                                     </PopoverContent>
                                 </Popover>
