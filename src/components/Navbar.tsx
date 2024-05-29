@@ -163,7 +163,7 @@ const Navbar = () => {
                                 <Label htmlFor='data'>
                                     Data
                                 </Label>
-                                <Popover>
+                                <Popover modal={true}>
                                     <PopoverTrigger asChild>
                                         <Button
                                             variant={'outline'}
@@ -181,6 +181,7 @@ const Navbar = () => {
                                             mode='single'
                                             selected={date}
                                             onSelect={setDate}
+                                            initialFocus
                                         />
                                     </PopoverContent>
                                 </Popover>
