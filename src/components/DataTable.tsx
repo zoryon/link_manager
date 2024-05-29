@@ -24,6 +24,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
+import { deleteAction } from '@/app/actions/db.actions'
 
 export const columns: ColumnDef<Tables<'links'>>[] = [
     {
@@ -87,6 +88,7 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
         id: 'actions',
         cell: ({ row }) => {
             const link = row.original.link
+            const link_id = row.original.id
 
             return (
                 <DropdownMenu>
@@ -107,7 +109,14 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
                             Copy Link
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className='flex gap-2 items-center'>
+                        <DropdownMenuItem 
+                            className='flex gap-2 items-center'
+                            onClick={() => deleteAction({ 
+                                params: { 
+                                    link_id: link_id,
+                                } 
+                            })}
+                        >
                             <i className='fa-light fa-trash'></i>
                             Delete
                         </DropdownMenuItem>

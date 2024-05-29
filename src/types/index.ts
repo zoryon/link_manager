@@ -8,3 +8,7 @@ export type AddLinkActionProps = {
     nome_cognome: string,
     turn: number,
 }
+
+export type DeleteActionParams = {
+    link_id: number
+}

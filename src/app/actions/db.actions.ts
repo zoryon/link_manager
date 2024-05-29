@@ -1,6 +1,6 @@
 'use server'
 
-import { AddLinkActionProps } from '@/types'
+import { AddLinkActionProps, DeleteActionParams } from '@/types'
 import { createClient } from '@/utils/supabase/server'
 
 export const selectAction = async ({ query }: { query: string }) => {
@@ -9,7 +9,7 @@ export const selectAction = async ({ query }: { query: string }) => {
     const { data, error } = await supabase
         .from('links')
         .select()
-    
+
     if (error) {
         return {
             data: null,
@@ -17,7 +17,7 @@ export const selectAction = async ({ query }: { query: string }) => {
         }
     }
 
-    if (!data){
+    if (!data) {
         return {
             data: null,
             error: 'Errore nel database, perfavore riprova più tardi.',
@@ -42,6 +42,26 @@ export const addLinkAction = async ({ params }: { params: AddLinkActionProps }) 
     const { error } = await supabase
         .from('links')
         .insert(params)
+
+    if (error) {
+        return {
+            data: null,
+            error: 'Errore nel database, perfavore riprova più tardi.'
+        }
+    }
+
+    return {
+        data: 'Link aggiunto correttamente.',
+        error: null
+    }
+}
+
+export const deleteAction = async ({ params }: { params: DeleteActionParams }) => {
+    const supabase = createClient()
+    const { error } = await supabase
+        .from('links')
+        .delete()
+        .eq('id', params.link_id)
 
     if (error) {
         return {
