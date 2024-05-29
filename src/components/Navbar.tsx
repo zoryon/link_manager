@@ -9,7 +9,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog'
-import { addLinkAction } from '@/app/actions/user.actions'
+import { addLinkAction } from '@/app/actions/db.actions'
 import { Button } from './ui/button'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
@@ -34,8 +34,6 @@ import { format } from 'date-fns'
 import AvatarDropdown from './AvatarDropdown'
 import { useToast } from './ui/use-toast'
 import { MetaType } from '@/types'
-import { createClient } from '@/utils/supabase/client'
-import { User } from '@supabase/auth-js'
 
 const Navbar = () => {
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
@@ -43,17 +41,8 @@ const Navbar = () => {
     const [date, setDate] = useState<Date>()
     const [meta, setMeta] = useState<string>('')
     const [link, setLink] = useState<string>('')
-    const [user, setUser] = useState<User | null>(null)
+    const [nomeCognome, setNomeCognome] = useState<string>('')
     const { toast } = useToast()
-
-    const supabase = createClient()
-    useEffect(() => {
-        async function fetchUser() {
-            const { data } = await supabase.auth.getUser()
-            setUser(data.user)
-        }
-        fetchUser()
-    }, [])
 
     return (
         <div className='w-full h-16 flex justify-between items-center border-b px-5 lg:px-12'>
@@ -112,6 +101,16 @@ const Navbar = () => {
                                     id='link'
                                     placeholder='https://example.com'
                                     onChange={(e) => setLink(e.currentTarget.value)}
+                                />
+                            </div>
+                            <div className='flex flex-col gap-4'>
+                                <Label htmlFor='nomeCognome'>
+                                    Nome e Cognome
+                                </Label>
+                                <Input
+                                    id='nomeCognome'
+                                    placeholder='Jon Doe'
+                                    onChange={(e) => setNomeCognome(e.currentTarget.value)}
                                 />
                             </div>
                             <div className='flex flex-col gap-4'>
@@ -204,7 +203,7 @@ const Navbar = () => {
                                             link: link,
                                             meta: meta as MetaType,
                                             data: date!,
-                                            creator_email: user!.email!
+                                            nome_cognome: nomeCognome,
                                         }
                                     })
 

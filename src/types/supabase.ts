@@ -12,27 +12,27 @@ export type Database = {
       links: {
         Row: {
           created_at: string
-          creator_email: string
           data: Date
           id: number
           link: string
           meta: string
+          nome_cognome: string
         }
         Insert: {
           created_at?: string
-          creator_email: string
           data: Date
           id?: number
           link: string
           meta: string
+          nome_cognome: string
         }
         Update: {
           created_at?: string
-          creator_email?: string
           data?: Date
           id?: number
           link?: string
           meta?: string
+          nome_cognome?: string
         }
         Relationships: []
       }

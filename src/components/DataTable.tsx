@@ -23,11 +23,33 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import Link from 'next/link'
 
 export const columns: ColumnDef<Tables<'links'>>[] = [
     {
         accessorKey: 'link',
         header: 'Link',
+        cell: ({ row }) => {
+            const link = row.original.link
+            const truncatedLink = link.slice(0, 5)
+
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger>{truncatedLink}</DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuLabel>Full Link</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                            <Link
+                                href={link}
+                            >
+                                {link}
+                            </Link>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )
+        }
     },
     {
         accessorKey: 'meta',
@@ -38,13 +60,29 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
         header: 'Data',
     },
     {
-        accessorKey: 'creator_email',
+        accessorKey: 'nome_cognome',
         header: 'Creatore',
+        cell: ({ row }) => {
+            const nomeCognome = row.original.nome_cognome.split(' ')
+            const nome = nomeCognome[0] ? nomeCognome[0].substring(0, 10) : ''
+            const cognome = nomeCognome[1] ? nomeCognome[1].substring(0, 10) : ''
+
+            return (
+                <div className='flex flex-col'>
+                    <div>
+                        {nome}
+                    </div>
+                    <div>
+                        {cognome}
+                    </div>
+                </div>
+            )
+        }
     },
     {
         id: 'actions',
         cell: ({ row }) => {
-            const link = row.original
+            const link = row.original.link
 
             return (
                 <DropdownMenu>
@@ -58,7 +96,7 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(link.link)}
+                            onClick={() => navigator.clipboard.writeText(link)}
                             className='flex gap-2 items-center'
                         >
                             <i className='fa-light fa-copy'></i>
@@ -67,7 +105,7 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className='flex gap-2 items-center'>
                             <i className='fa-light fa-trash'></i>
-                            Delete 
+                            Delete
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
