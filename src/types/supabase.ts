@@ -17,6 +17,7 @@ export type Database = {
           link: string
           meta: string
           nome_cognome: string
+          turn: number
         }
         Insert: {
           created_at?: string
@@ -25,6 +26,7 @@ export type Database = {
           link: string
           meta: string
           nome_cognome: string
+          turn: number
         }
         Update: {
           created_at?: string
@@ -33,6 +35,7 @@ export type Database = {
           link?: string
           meta?: string
           nome_cognome?: string
+          turn?: number
         }
         Relationships: []
       }

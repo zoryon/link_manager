@@ -6,4 +6,5 @@ export type AddLinkActionProps = {
     meta: MetaType,
     data: Date,
     nome_cognome: string,
+    turn: number,
 }

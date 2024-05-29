@@ -56,6 +56,10 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
         header: 'Meta',
     },
     {
+        accessorKey: 'turn',
+        header: 'Turno',
+    },
+    {
         accessorKey: 'data',
         header: 'Data',
     },

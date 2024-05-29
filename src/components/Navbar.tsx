@@ -34,13 +34,16 @@ import { format } from 'date-fns'
 import AvatarDropdown from './AvatarDropdown'
 import { useToast } from './ui/use-toast'
 import { MetaType } from '@/types'
+import { TURN } from '@/constants/turn.constants'
 
 const Navbar = () => {
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
-    const [open, setOpen] = useState<boolean>(false)
+    const [isOpenMeta, setIsOpenMeta] = useState<boolean>(false)
+    const [isOpenTurn, setIsOpenTurn] = useState<boolean>(false)
     const [date, setDate] = useState<Date>()
     const [meta, setMeta] = useState<string>('')
     const [link, setLink] = useState<string>('')
+    const [turn, setTurn] = useState<number>(0)
     const [nomeCognome, setNomeCognome] = useState<string>('')
     const { toast } = useToast()
 
@@ -113,51 +116,99 @@ const Navbar = () => {
                                     onChange={(e) => setNomeCognome(e.currentTarget.value)}
                                 />
                             </div>
-                            <div className='flex flex-col gap-4'>
-                                <Label htmlFor='meta'>
-                                    Meta
-                                </Label>
-                                <Popover open={open} onOpenChange={setOpen}>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant='outline'
-                                            role='combobox'
-                                            aria-expanded={open}
-                                            className='w-[200px] justify-between'
-                                        >
-                                            {meta
-                                                ? META.find((item) => item.value === meta)?.label
-                                                : 'Scegli una meta...'}
-                                            <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className='w-[200px] p-0'>
-                                        <Command>
-                                            <CommandInput placeholder='Cerca una meta...' className='h-9' />
-                                            <CommandEmpty>Non trovata.</CommandEmpty>
-                                            <CommandList>
-                                                {META.map((item) => (
-                                                    <CommandItem
-                                                        key={item.value}
-                                                        value={item.value}
-                                                        onSelect={(currentMeta) => {
-                                                            setMeta(currentMeta === meta ? '' : currentMeta)
-                                                            setOpen(false)
-                                                        }}
-                                                    >
-                                                        {item.label}
-                                                        <CheckIcon
-                                                            className={cn(
-                                                                'ml-auto h-4 w-4',
-                                                                meta === item.value ? 'opacity-100' : 'opacity-0'
-                                                            )}
-                                                        />
-                                                    </CommandItem>
-                                                ))}
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
+                            <div className='w-full grid grid-cols-2 items-center gap-5'>
+                                <div className='col-span-1 flex flex-col gap-2'>
+                                    <Label htmlFor='meta'>
+                                        Meta
+                                    </Label>
+                                    <Popover open={isOpenMeta} onOpenChange={setIsOpenMeta}>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant='outline'
+                                                role='combobox'
+                                                aria-expanded={isOpenMeta}
+                                                className='w-full justify-between'
+                                            >
+                                                {meta
+                                                    ? META.find((item) => item.value === meta)?.label
+                                                    : 'Scegli una meta...'}
+                                                <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className='w-[200px] p-0'>
+                                            <Command>
+                                                <CommandInput placeholder='Cerca una meta...' className='h-9' />
+                                                <CommandEmpty>Non trovata.</CommandEmpty>
+                                                <CommandList>
+                                                    {META.map((item) => (
+                                                        <CommandItem
+                                                            key={item.value}
+                                                            value={item.value}
+                                                            onSelect={(currentMeta) => {
+                                                                setMeta(currentMeta === meta ? '' : currentMeta)
+                                                                setIsOpenMeta(false)
+                                                            }}
+                                                        >
+                                                            {item.label}
+                                                            <CheckIcon
+                                                                className={cn(
+                                                                    'ml-auto h-4 w-4',
+                                                                    meta === item.value ? 'opacity-100' : 'opacity-0'
+                                                                )}
+                                                            />
+                                                        </CommandItem>
+                                                    ))}
+                                                </CommandList>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
+                                </div>
+                                <div className='col-span-1 flex flex-col gap-2'>
+                                    <Label htmlFor='turn'>
+                                        Turno
+                                    </Label>
+                                    <Popover open={isOpenTurn} onOpenChange={setIsOpenTurn}>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant='outline'
+                                                role='combobox'
+                                                aria-expanded={isOpenTurn}
+                                                className='w-full justify-between'
+                                            >
+                                                {turn
+                                                    ? TURN.find((item) => item?.value === turn)?.label
+                                                    : 'Scegli un turno...'}
+                                                <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className='w-[200px] p-0'>
+                                            <Command>
+                                                <CommandInput placeholder='Cerca un turno...' className='h-9' />
+                                                <CommandEmpty>Non trovato.</CommandEmpty>
+                                                <CommandList>
+                                                    {TURN.map((item) => (
+                                                        <CommandItem
+                                                            key={item?.value}
+                                                            value={item?.label}
+                                                            onSelect={(currentTurn) => {
+                                                                setTurn(currentTurn === String(turn) ? 0 : Number(currentTurn))
+                                                                setIsOpenTurn(false)
+                                                            }}
+                                                        >
+                                                            {item?.label}
+                                                            <CheckIcon
+                                                                className={cn(
+                                                                    'ml-auto h-4 w-4',
+                                                                    turn === item?.value ? 'opacity-100' : 'opacity-0'
+                                                                )}
+                                                            />
+                                                        </CommandItem>
+                                                    ))}
+                                                </CommandList>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
+                                </div>
                             </div>
                             <div className='flex flex-col gap-4'>
                                 <Label htmlFor='data'>
@@ -191,7 +242,7 @@ const Navbar = () => {
                         <DialogFooter>
                             <Button
                                 onClick={async () => {
-                                    if(!link || !meta || !date) {
+                                    if(!link || !meta || !date || !nomeCognome || !turn) {
                                         return toast({
                                             title: 'Errore..',
                                             description: 'Inserisci tutti i dati, perfavore.'
@@ -204,6 +255,7 @@ const Navbar = () => {
                                             meta: meta as MetaType,
                                             data: date!,
                                             nome_cognome: nomeCognome,
+                                            turn: turn,
                                         }
                                     })
 
