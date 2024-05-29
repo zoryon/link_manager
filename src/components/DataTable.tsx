@@ -1,4 +1,3 @@
-import { Tables } from '@/types/supabase'
 import {
     ColumnDef,
     flexRender,
@@ -13,8 +12,7 @@ import {
     TableHeader,
     TableRow
 } from './ui/table'
-import { MoreHorizontal } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Tables } from '@/types/supabase'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -24,7 +22,11 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
+import { Button } from './ui/button'
+import { MoreHorizontal } from 'lucide-react'
 import { deleteAction } from '@/app/actions/db.actions'
+import { isAdmin } from '@/app/actions/utils.actions'
+import { useEffect, useState } from 'react'
 
 export const columns: ColumnDef<Tables<'links'>>[] = [
     {
@@ -87,9 +89,18 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
     {
         id: 'actions',
         cell: ({ row }) => {
+            const [isAdminUser, setIsAdminUser] = useState<boolean>(false);
             const link = row.original.link
             const link_id = row.original.id
 
+            useEffect(() => {
+                const checkAdminStatus = async () => {
+                    const result = await isAdmin()
+                    setIsAdminUser(result)
+                };
+                
+                checkAdminStatus()
+            }, [])
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -108,18 +119,22 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
                             <i className='fa-light fa-copy'></i>
                             Copy Link
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem 
-                            className='flex gap-2 items-center'
-                            onClick={() => deleteAction({ 
-                                params: { 
-                                    link_id: link_id,
-                                } 
-                            })}
-                        >
-                            <i className='fa-light fa-trash'></i>
-                            Delete
-                        </DropdownMenuItem>
+                        {isAdminUser && (
+                            <>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem 
+                                    className='flex gap-2 items-center'
+                                    onClick={() => deleteAction({ 
+                                        params: { 
+                                            link_id: link_id,
+                                        } 
+                                    })}
+                                >
+                                    <i className='fa-light fa-trash'></i>
+                                    Delete
+                                </DropdownMenuItem>
+                            </>
+                        )}
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
