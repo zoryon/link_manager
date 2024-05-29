@@ -58,6 +58,16 @@ export const addLinkAction = async ({ params }: { params: AddLinkActionProps }) 
 
 export const deleteAction = async ({ params }: { params: DeleteActionParams }) => {
     const supabase = createClient()
+
+    const { data } = await supabase.auth.getUser()
+    const { user } = data
+    if (user && user.id !== process.env.ADMIN_ID_1) {
+        return {
+            data: null,
+            error: 'Non sei un utente admin, azione bloccata.'
+        }
+    }
+
     const { error } = await supabase
         .from('links')
         .delete()
@@ -71,7 +81,7 @@ export const deleteAction = async ({ params }: { params: DeleteActionParams }) =
     }
 
     return {
-        data: 'Link aggiunto correttamente.',
+        data: 'Link eliminato correttamente.',
         error: null
     }
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import {
     ColumnDef,
     flexRender,
@@ -25,6 +27,7 @@ import Link from 'next/link'
 import { Button } from './ui/button'
 import { MoreHorizontal } from 'lucide-react'
 import { deleteAction } from '@/app/actions/db.actions'
+import { useToast } from './ui/use-toast'
 
 export const columns: ColumnDef<Tables<'links'>>[] = [
     {
@@ -87,6 +90,7 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
     {
         id: 'actions',
         cell: ({ row }) => {
+            const { toast } = useToast()
             const link = row.original.link
             const link_id = row.original.id
 
@@ -111,11 +115,19 @@ export const columns: ColumnDef<Tables<'links'>>[] = [
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             className='flex gap-2 items-center'
-                            onClick={() => deleteAction({
-                                params: {
-                                    link_id: link_id,
-                                }
-                            })}
+                            onClick={() => {
+                                deleteAction({
+                                    params: {
+                                        link_id: link_id,
+                                    }
+                                })
+                                .then((res) => {
+                                    toast({
+                                        title: res.data ? 'Successo..' : 'Errore..',
+                                        description: res.data ? res.data : res.error,
+                                    })
+                                })
+                            }}
                         >
                             <i className='fa-light fa-trash'></i>
                             Delete
